@@ -1,10 +1,18 @@
 ---@type ChadrcConfig
 local M = {}
 
-M.ui = { 
-  theme = 'onedark',
+M.ui = {
   blankline = { style = "rainbow", blank = true }, -- style: rainbow/nil, blank = true/false
-  statusline = {theme='vscode'},
+  hl_override = {
+    CursorLineNr = { fg = "yellow" },
+    LspReferenceRead = { bg = "lightbg", fg = "none" },
+    LspReferenceText = { bg = "lightbg", fg = "none" }, -- same Visual highlight but lighter
+    LspReferenceWrite = { bg = "lightbg", fg = "none" },
+  },
+  statusline = { theme = "vscode" },
+  theme = "gruvchad",
 }
+
+M.plugins = "custom.plugins"
 
 return M

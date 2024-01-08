@@ -4,9 +4,35 @@ require "nvchad.lsp"
 local M = {}
 local utils = require "core.utils"
 
--- export on_attach & capabilities for custom lspconfigs
+-- highlight symbols under cursor
+M.highlight_symbols = function(client)
+  local ok, highlight_supported = pcall(function()
+    return client.supports_method "textDocument/documentHighlight"
+  end)
 
+  if not ok or not highlight_supported then
+    return
+  else
+    vim.api.nvim_exec(
+      [[
+              augroup lsp_document_highlight
+              autocmd! * <buffer>
+              autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()
+              autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()
+              autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+              augroup END
+      ]],
+      false
+    )
+  end
+end
+
+-- export on_attach & capabilities for custom lspconfigs
 M.on_attach = function(client, bufnr)
+
+  -- highlight symbol undercursor
+  M.highlight_symbols(client)
+
   utils.load_mappings("lspconfig", { buffer = bufnr })
 
   if client.server_capabilities.signatureHelpProvider then

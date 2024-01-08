@@ -79,14 +79,14 @@ M.tabufline = {
 
   n = {
     -- cycle through buffers
-    ["<tab>"] = {
+    ["]b"] = {
       function()
         require("nvchad.tabufline").tabuflineNext()
       end,
       "Goto next buffer",
     },
 
-    ["<S-tab>"] = {
+    ["[b"] = {
       function()
         require("nvchad.tabufline").tabuflinePrev()
       end,
@@ -99,6 +99,49 @@ M.tabufline = {
         require("nvchad.tabufline").close_buffer()
       end,
       "Close buffer",
+    },
+
+    -- close buffers at direction
+    ["<leader>br"] = {
+      function()
+        require("nvchad.tabufline").closeBufs_at_direction("right")
+      end,
+      "Close buffer(s) right"
+    },
+
+    ["<leader>bl"] = {
+      function()
+        require("nvchad.tabufline").closeBufs_at_direction("left")
+      end,
+      "Close buffer(s) left"
+    },
+
+    ["<leader>X"] = {
+      function()
+        require("nvchad.tabufline").closeAllBufs()
+      end,
+      "Close buffer(s) all"
+    },
+
+    ["<leader>bc"] = {
+      function()
+        require("nvchad.tabufline").closeOtherBufs()
+      end,
+      "Close buffer(s) all except the current"
+    },
+
+    [">b"] = {
+      function()
+        require("nvchad.tabufline").move_buf(1)
+      end,
+      "Move buffer to right"
+    },
+
+    ["<b"] = {
+      function()
+        require("nvchad.tabufline").move_buf(-1)
+      end,
+      "Move buffer to left"
     },
   },
 }
@@ -193,7 +236,7 @@ M.lspconfig = {
       "LSP references",
     },
 
-    ["<leader>lf"] = {
+    ["gl"] = {
       function()
         vim.diagnostic.open_float { border = "rounded" }
       end,
@@ -272,8 +315,11 @@ M.telescope = {
     ["<leader>fw"] = { "<cmd> Telescope live_grep <CR>", "Live grep" },
     ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "Find buffers" },
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "Help page" },
+    ["<leader>fH"] = { "<cmd> Telescope highlights <CR>", "Find highlights" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "Find oldfiles" },
-    ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
+    ["<leader>fg"] = { "<cmd> Telescope live_grep_args <CR>", "Live grep args" },
+    ["<leader>f/"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
+    ["<leader>f<CR>"] = { function() require("telescope.builtin").resume() end, "Resume previous search" },
 
     -- git
     ["<leader>cm"] = { "<cmd> Telescope git_commits <CR>", "Git commits" },
@@ -403,63 +449,102 @@ M.gitsigns = {
 
   n = {
     -- Navigation through hunks
-    ["]c"] = {
+    ["]h"] = {
       function()
         if vim.wo.diff then
-          return "]c"
+          return "]h"
         end
         vim.schedule(function()
           require("gitsigns").next_hunk()
         end)
         return "<Ignore>"
       end,
+
       "Jump to next hunk",
       opts = { expr = true },
     },
 
-    ["[c"] = {
+    ["[h"] = {
       function()
         if vim.wo.diff then
-          return "[c"
+          return "[h"
         end
         vim.schedule(function()
           require("gitsigns").prev_hunk()
         end)
         return "<Ignore>"
       end,
+
       "Jump to prev hunk",
       opts = { expr = true },
     },
 
     -- Actions
-    ["<leader>rh"] = {
+    ["<leader>hr"] = {
       function()
         require("gitsigns").reset_hunk()
       end,
+
       "Reset hunk",
     },
 
-    ["<leader>ph"] = {
+    ["<leader>hp"] = {
       function()
         require("gitsigns").preview_hunk()
       end,
+
       "Preview hunk",
     },
 
-    ["<leader>gb"] = {
+    ["<leader>hb"] = {
       function()
         package.loaded.gitsigns.blame_line()
       end,
+
       "Blame line",
     },
 
-    ["<leader>td"] = {
+    ["<leader>hib"] = {
+      function()
+        package.loaded.gitsigns.toggle_current_line_blame()
+      end,
+
+      "Blame inline",
+    },
+
+    ["<leader>hd"] = {
+      function()
+        require("gitsigns").diffthis()
+      end,
+
+      "Diff this",
+    },
+
+    ["<leader>hD"] = {
       function()
         require("gitsigns").toggle_deleted()
       end,
+
       "Toggle deleted",
     },
+
+    ["<leader>hs"] = {
+      function()
+        require("gitsigns").stage_hunk()
+      end,
+
+      "Stage hunk"
+    },
+
+    ["<leader>hu"] = {
+      function()
+        require("gitsigns").undo_stage_hunk()
+      end,
+
+      "Undo stage hunk"
+    },
   },
+
 }
 
 return M

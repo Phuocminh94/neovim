@@ -46,10 +46,16 @@ local options = {
     buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
     mappings = {
       n = { ["q"] = require("telescope.actions").close },
+      i = {
+        ["<C-j>"] = require("telescope.actions").move_selection_next,
+        ["<C-k>"] = require("telescope.actions").move_selection_previous,
+        ["<C-n>"] = require("telescope.actions").cycle_history_next,
+        ["<C-p>"] = require("telescope.actions").cycle_history_prev,
+      },
     },
   },
 
-  extensions_list = { "themes", "terms" },
+  extensions_list = { "themes", "terms", "live_grep_args" },
 }
 
 return options

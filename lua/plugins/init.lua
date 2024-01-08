@@ -78,6 +78,14 @@ local default_plugins = {
     end,
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        config = function()
+          require 'custom.configs.ts-textobjects'
+        end,
+      },
+    },
     opts = function()
       return require "plugins.configs.treesitter"
     end,
@@ -96,7 +104,7 @@ local default_plugins = {
       vim.api.nvim_create_autocmd({ "BufRead" }, {
         group = vim.api.nvim_create_augroup("GitSignsLazyLoad", { clear = true }),
         callback = function()
-          vim.fn.jobstart({"git", "-C", vim.loop.cwd(), "rev-parse"},
+          vim.fn.jobstart({ "git", "-C", vim.loop.cwd(), "rev-parse" },
             {
               on_exit = function(_, return_code)
                 if return_code == 0 then
@@ -144,11 +152,19 @@ local default_plugins = {
 
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      -- "jose-elias-alvarez/null-ls.nvim",
+      "nvimtools/none-ls.nvim", -- migrate to none-ls (community mantained)
+      config = function()
+        require "custom.configs.null-ls"
+      end,
+    },
     init = function()
       require("core.utils").lazy_load "nvim-lspconfig"
     end,
     config = function()
       require "plugins.configs.lspconfig"
+      require "custom.configs.lspconfig"
     end,
   },
 
@@ -204,12 +220,12 @@ local default_plugins = {
   {
     "numToStr/Comment.nvim",
     keys = {
-      { "gcc", mode = "n", desc = "Comment toggle current line" },
-      { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
-      { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
-      { "gbc", mode = "n", desc = "Comment toggle current block" },
-      { "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
-      { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
+      { "gcc", mode = "n",          desc = "Comment toggle current line" },
+      { "gc",  mode = { "n", "o" }, desc = "Comment toggle linewise" },
+      { "gc",  mode = "x",          desc = "Comment toggle linewise (visual)" },
+      { "gbc", mode = "n",          desc = "Comment toggle current block" },
+      { "gb",  mode = { "n", "o" }, desc = "Comment toggle blockwise" },
+      { "gb",  mode = "x",          desc = "Comment toggle blockwise (visual)" },
     },
     init = function()
       require("core.utils").load_mappings "comment"
@@ -237,7 +253,7 @@ local default_plugins = {
 
   {
     "nvim-telescope/telescope.nvim",
-    dependencies = { 
+    dependencies = {
       "nvim-treesitter/nvim-treesitter",
       { "nvim-telescope/telescope-live-grep-args.nvim", version = "^1.0.0" },
     },
@@ -263,13 +279,16 @@ local default_plugins = {
   -- Only load whichkey after all the gui
   {
     "folke/which-key.nvim",
-    keys = { "<leader>", "<c-r>", "<c-w>", '"', "'", "`", "c", "v", "g" },
+    keys = { '"', "'", "`", "z=" },
     init = function()
       require("core.utils").load_mappings "whichkey"
     end,
     cmd = "WhichKey",
     config = function(_, opts)
       dofile(vim.g.base46_cache .. "whichkey")
+      -- use which-key only for showing register and marks.
+      opts = vim.tbl_deep_extend("force", opts, require 'custom.configs.which-key' or {})
+
       require("which-key").setup(opts)
     end,
   },
