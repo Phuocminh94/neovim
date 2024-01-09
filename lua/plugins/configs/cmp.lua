@@ -74,6 +74,9 @@ local options = {
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-q>"] = function()
+      return cmp.visible_docs() and cmp.close_docs() or cmp.open_docs()
+    end,
     ["<C-e>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Insert,
@@ -81,12 +84,12 @@ local options = {
     },
   },
   sources = {
-    { name = "nvim_lsp" },
-    { name = "luasnip" },
-    { name = "buffer" },
-    { name = "nvim_lua" },
-    { name = "path" },
-    { name = "calc" },
+    { name = "nvim_lsp", group_index = 1 },
+    { name = "luasnip",  group_index = 2 },
+    { name = "nvim_lua", group_index = 2 },
+    { name = "buffer",   group_index = 2 },
+    { name = "calc",     group_index = 2 },
+    { name = "path",     group_index = 2 },
   },
 }
 

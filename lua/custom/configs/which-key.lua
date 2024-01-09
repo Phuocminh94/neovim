@@ -19,5 +19,5 @@ return {
   },
 
   ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label.
-  triggers = "z",          -- do not automatically setup triggers. use <leader>wk to query desired keys.
+  triggers = {"z", "'", '"', "`"},          -- do not automatically setup triggers. use <leader>wk to query desired keys.
 }

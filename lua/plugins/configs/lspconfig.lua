@@ -4,6 +4,19 @@ require "nvchad.lsp"
 local M = {}
 local utils = require "core.utils"
 
+-- overwrite symbols and diagnostics
+local function lspSymbol(name, icon)
+  local hl = "DiagnosticSign" .. name
+  vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
+end
+
+lspSymbol("Error", "󰅚")
+lspSymbol("Info", "")
+lspSymbol("Hint", "󰛩")
+lspSymbol("Warn", "")
+
+vim.diagnostic.config(vim.tbl_deep_extend("force", vim.g.diagnostic_mode, { float = { source = "always" } }))
+
 -- highlight symbols under cursor
 M.highlight_symbols = function(client)
   local ok, highlight_supported = pcall(function()
@@ -29,7 +42,6 @@ end
 
 -- export on_attach & capabilities for custom lspconfigs
 M.on_attach = function(client, bufnr)
-
   -- highlight symbol undercursor
   M.highlight_symbols(client)
 

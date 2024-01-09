@@ -78,7 +78,7 @@ M.tabufline = {
   plugin = true,
 
   n = {
-    -- cycle through buffers
+    -- buffers
     ["]b"] = {
       function()
         require("nvchad.tabufline").tabuflineNext()
@@ -143,6 +143,12 @@ M.tabufline = {
       end,
       "Move buffer to left"
     },
+
+    ["^"] = { "<cmd>e #<cr>", "Other Buffer" },
+
+    -- tab
+    ["<leader><tab><tab>"] = { "<cmd>tabnew<CR>", "New tab" },
+    ["<leader><tab>d"] = { "<cmd>tabclose<CR>", "Close tab" },
   },
 }
 
@@ -215,7 +221,7 @@ M.lspconfig = {
       "LSP definition type",
     },
 
-    ["<leader>ra"] = {
+    ["<leader>rn"] = {
       function()
         require("nvchad.renamer").open()
       end,
@@ -340,7 +346,7 @@ M.nvterm = {
 
   t = {
     -- toggle in terminal mode
-    ["<A-i>"] = {
+    ["<A-\\>"] = {
       function()
         require("nvterm.terminal").toggle "float"
       end,
@@ -364,7 +370,7 @@ M.nvterm = {
 
   n = {
     -- toggle in normal mode
-    ["<A-i>"] = {
+    ["<A-\\>"] = {
       function()
         require("nvterm.terminal").toggle "float"
       end,
@@ -384,6 +390,10 @@ M.nvterm = {
       end,
       "Toggle vertical term",
     },
+
+    ["<C-\\>"] = {
+      [[ <cmd> let $DIR=expand('%:p:h') | lua require('nvterm.terminal').toggle 'float' <CR> cd $DIR && clear <CR> ]],
+      "Toggle cwd floating term" },
 
     -- new
     ["<leader>h"] = {

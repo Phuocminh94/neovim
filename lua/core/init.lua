@@ -33,7 +33,7 @@ opt.numberwidth = 2
 opt.ruler = false
 
 -- disable nvim intro
-opt.shortmess:append "sI"
+opt.shortmess:append "sIS"
 
 opt.signcolumn = "yes"
 opt.splitbelow = true
@@ -52,7 +52,7 @@ opt.whichwrap:append "<>[]hl"
 g.mapleader = " "
 
 -- disable some default providers
-for _, provider in ipairs { "node", "perl", "python3", "ruby" } do
+for _, provider in ipairs { "node", "perl", "ruby" } do
   vim.g["loaded_" .. provider .. "_provider"] = 0
 end
 
