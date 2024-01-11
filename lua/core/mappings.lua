@@ -104,44 +104,44 @@ M.tabufline = {
     -- close buffers at direction
     ["<leader>br"] = {
       function()
-        require("nvchad.tabufline").closeBufs_at_direction("right")
+        require("nvchad.tabufline").closeBufs_at_direction "right"
       end,
-      "Close buffer(s) right"
+      "Close buffer(s) right",
     },
 
     ["<leader>bl"] = {
       function()
-        require("nvchad.tabufline").closeBufs_at_direction("left")
+        require("nvchad.tabufline").closeBufs_at_direction "left"
       end,
-      "Close buffer(s) left"
+      "Close buffer(s) left",
     },
 
     ["<leader>X"] = {
       function()
         require("nvchad.tabufline").closeAllBufs()
       end,
-      "Close buffer(s) all"
+      "Close buffer(s) all",
     },
 
     ["<leader>bc"] = {
       function()
         require("nvchad.tabufline").closeOtherBufs()
       end,
-      "Close buffer(s) all except the current"
+      "Close buffer(s) all except the current",
     },
 
     [">b"] = {
       function()
         require("nvchad.tabufline").move_buf(1)
       end,
-      "Move buffer to right"
+      "Move buffer to right",
     },
 
     ["<b"] = {
       function()
         require("nvchad.tabufline").move_buf(-1)
       end,
-      "Move buffer to left"
+      "Move buffer to left",
     },
 
     ["^"] = { "<cmd>e #<cr>", "Other Buffer" },
@@ -324,8 +324,16 @@ M.telescope = {
     ["<leader>fH"] = { "<cmd> Telescope highlights <CR>", "Find highlights" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "Find oldfiles" },
     ["<leader>fg"] = { "<cmd> Telescope live_grep_args <CR>", "Live grep args" },
+    ["<leader>fp"] = { "<cmd> Telescope projects <CR>", "Find projects" },
     ["<leader>f/"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
-    ["<leader>f<CR>"] = { function() require("telescope.builtin").resume() end, "Resume previous search" },
+    ["<leader>fe"] = { "<cmd> Telescope file_browser <CR>", "Telescope explorer" },
+    ["<leader>fE"] = { "<cmd> Telescope file_browser files=false <CR>", "Telescope explorer folders" },
+    ["<leader>f<CR>"] = {
+      function()
+        require("telescope.builtin").resume()
+      end,
+      "Resume previous search",
+    },
 
     -- git
     ["<leader>cm"] = { "<cmd> Telescope git_commits <CR>", "Git commits" },
@@ -337,7 +345,7 @@ M.telescope = {
     -- theme switcher
     ["<leader>th"] = { "<cmd> Telescope themes <CR>", "Nvchad themes" },
 
-    ["<leader>ma"] = { "<cmd> Telescope marks <CR>", "telescope bookmarks" },
+    -- ["<leader>ma"] = { "<cmd> Telescope marks <CR>", "telescope bookmarks" },
   },
 }
 
@@ -393,7 +401,8 @@ M.nvterm = {
 
     ["<C-\\>"] = {
       [[ <cmd> let $DIR=expand('%:p:h') | lua require('nvterm.terminal').toggle 'float' <CR> cd $DIR && clear <CR> ]],
-      "Toggle cwd floating term" },
+      "Toggle cwd floating term",
+    },
 
     -- new
     ["<leader>h"] = {
@@ -543,7 +552,7 @@ M.gitsigns = {
         require("gitsigns").stage_hunk()
       end,
 
-      "Stage hunk"
+      "Stage hunk",
     },
 
     ["<leader>hu"] = {
@@ -551,10 +560,9 @@ M.gitsigns = {
         require("gitsigns").undo_stage_hunk()
       end,
 
-      "Undo stage hunk"
+      "Undo stage hunk",
     },
   },
-
 }
 
 return M

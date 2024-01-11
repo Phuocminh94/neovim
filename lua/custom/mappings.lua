@@ -10,6 +10,9 @@ return {
       -- open link in defaukt browser
       ["gx"] = { "<cmd>silent !xdg-open <cfile><CR>", "Open link in browser" },
 
+      -- lazygit
+      ["<leader>lg"] = { "<cmd>LazyGit <CR>", "Lazygit" },
+
       -- resize windows
       ["<C-Up>"] = { "<cmd>resize -2<CR>", "Resize up" },
       ["<C-Down>"] = { "<cmd>resize +2<CR>", "Resize down" },
@@ -25,6 +28,16 @@ return {
       -- clone VsCode style
       ["<A-S-k>"] = { "<cmd>t-1<CR>", "Copy line up" },
       ["<A-S-j>"] = { "<cmd>t.<CR>", "Copy line down" },
+
+      -- change cwd
+      ["<leader>cd"] = {
+        function()
+          vim.cmd [[execute 'set autochdir']]
+          vim.cmd [[execute 'tcd '. expand('%:p:h')]]
+        end,
+        "Change cwd",
+        opts = { silent = true, noremap = true },
+      },
 
       -- quick fix
       ["]q"] = { "<cmd>cnext<CR>", "Next quickfix" },
@@ -226,6 +239,89 @@ return {
 
     x = {
       ["<leader>sv"] = { "<cmd> lua require 'iron.core'.visual_send() <CR>", "Send visual" },
+    },
+  },
+
+  -----------------------------------Not meant to be set------------------------------------
+  -- to be shown up on cheatsheet only
+  -- set plugin = true
+  -- add ~ make it appear at the end of cheatsheet.
+
+  ["~ts-textobject"] = {
+    plugin = true,
+    select = {
+      ["a="] = { "", "Outer assignment" },
+      ["i="] = { "", "Inner assignment" },
+      ["aa"] = { "", "Outer parameter" },
+      ["ia"] = { "", "Inner parameter" },
+
+      ["al"] = { "", "Outer loop" },
+      ["il"] = { "", "Inner loop" },
+
+      ["ab"] = { "", "Outer block" },
+      ["ib"] = { "", "Inner block" },
+
+      ["af"] = { "", "Outer function" },
+      ["if"] = { "", "Inner function" },
+
+      ["ac"] = { "", "Outer class" },
+      ["ic"] = { "", "Inner class" },
+    },
+
+    move = {
+      ["]m"] = { "", "Next start outer function" },
+      ["]]"] = { "", "Next start outer class" },
+      ["]a"] = { "", "Next start inner parameter" },
+
+      ["]M"] = { "", "Next end outer function" },
+      ["]["] = { "", "Next end outer class" },
+      ["]A"] = { "", "Next end inner parameter" },
+
+      ["[m"] = { "", "Previous start outer function" },
+      ["[["] = { "", "Previous start outer class" },
+      ["[a"] = { "", "Previous start inner parameter" },
+
+      ["[M"] = { "", "Previous end outer function" },
+      ["[]"] = { "", "Previous end outer class" },
+      ["[A"] = { "", "Previous end inner parameter" },
+    },
+  },
+
+  ["~telescope file-browser"] = {
+    plugin = true,
+    ["n,i"] = {
+      ["[A-c]/c"] = { "", "Create file/folder at cwd" }, -- select/unselect file with tab/shift-tab
+      ["[A-r]/r"] = { "", "Rename files/folders" },
+      ["[A-y]/y"] = { "", "Copy files/folders to cwd" },
+      ["[A-m]/m"] = { "", "Move files/folders to cwd" },
+      ["[A-d]/d"] = { "", "Delete files/folders" },
+
+      ["[C-h]/h"] = { "", "Toggle files/folders" },
+      ["[C-f]/f"] = { "", "Toggle files/folders browser" },
+      ["[C-g]/g"] = { "", "Go to parent directory" },
+      ["[C-e]/e"] = { "", "Go to home directory" },
+      ["[C-o]/o"] = { "", "Open with default apps" },
+    },
+  },
+
+  ["~VIM: Ranger"] = {
+    -- https://github.com/mhinz/vim-galore?tab=readme-ov-file#ranges
+    plugin = true,
+    ["c"] = {
+      ["d"] = { "", "Current line" },
+      [".d"] = { "", "Current line" },
+      ["1d"] = { "", "First line" },
+      ["$d"] = { "", "Last line" },
+      ["1,$d"] = { "", "All lines" },
+      ["%d"] = { "", "All lines (syntactic sugar for 1,$)" },
+      [".,5d"] = { "", "Current line to 5" },
+      [",5d"] = { "", "Current line to 5" },
+      [",+3d"] = { "", "Current line and next 3 lines" },
+      ["1,+3d"] = { "", "First line to current line + 3" },
+      [",-3d"] = { "", "Current line and the last 3 lines" },
+      ["3,'xdelete"] = { "", "Lines 3 to the line marked by mark x" },
+      ["/^foo/,$delete"] = { "", 'From next line with "foo" till end' },
+      ["/^foo/+1,$delete"] = { "", 'From line after line with "foo " till end' },
     },
   },
 }

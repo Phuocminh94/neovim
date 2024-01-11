@@ -2,7 +2,7 @@
 local M = {}
 
 M.ui = {
-  blankline = { style = "rainbow", blank = false }, -- style: rainbow/nil, blank = true/false
+  blankline = { style = "rainbow", blank = true }, -- style: rainbow/nil, blank = true/false
   cmp = { style = "atom" },
   extended_integrations = { "dap", "rainbowdelimiters", "trouble", "todo" },
   hl_override = {
@@ -11,7 +11,7 @@ M.ui = {
     LspReferenceText = { bg = "lightbg", fg = "none" }, -- same Visual highlight but lighter
     LspReferenceWrite = { bg = "lightbg", fg = "none" },
   },
-  
+
   statusline = {
     theme = "vscode",
     overriden_modules = function(modules)
@@ -25,9 +25,21 @@ M.ui = {
       modules[12] = ""
       modules[13] = custom.cwd()
       table.insert(modules, 6, custom.others())
-    end
+    end,
   },
-  theme = "everblush",
+  theme = "gruvchad",
+  nvdash = {
+    buttons = {
+      { "  Find Files", "f", "Telescope find_files" },
+      { "󱦺  Recent Files", "o", "Telescope oldfiles" },
+      { "  Find Text", "w", "Telescope live_grep_args" },
+      { "  Bookmarks", "b", "Telescope marks" },
+      { "  Themes", "t", "Telescope themes" },
+      { "  Projects", "p", "Telescope projects" },
+      { "󰒲  Lazy", "l", "Lazy" },
+      { "  Exit", "q", "q" },
+    },
+  },
 }
 
 M.plugins = "custom.plugins"

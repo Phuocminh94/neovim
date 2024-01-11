@@ -135,3 +135,68 @@ autocmd({ "VimEnter", "FileType", "BufEnter", "WinEnter" }, {
     matchURL()
   end,
 })
+
+-- Press dd in qflist to remove an item
+autocmd({ "FileType" }, {
+  group = custom,
+  pattern = { "qf" },
+  desc = "Remove quickfix item when press dd",
+  callback = function()
+    function _G.removeQFItem()
+      local curqfidx = vim.fn.line "." - 1
+      local qfall = vim.fn.getqflist()
+      table.remove(qfall, curqfidx + 1)
+      vim.fn.setqflist(qfall, "r")
+      vim.cmd(curqfidx + 1 .. "cfirst")
+      vim.cmd ":copen"
+    end
+
+    vim.cmd "command! RemoveQFItem lua removeQFItem()"
+    vim.api.nvim_buf_set_keymap(0, "n", "dd", "<cmd> RemoveQFItem <CR>", { silent = true })
+  end,
+})
+
+-- remove statusline on startup
+vim.g.hasBufName = false
+vim.g.autocmdEnabled = true
+autocmd({ "BufRead", "FileType" }, {
+  pattern = { "*" },
+  desc = "Remove statusline on startup",
+  callback = function()
+    if vim.g.autocmdEnabled then
+      if vim.g.hasBufName then
+        vim.cmd [[set laststatus=3]]
+        vim.g.autocmdEnabled = false
+      else
+        vim.cmd [[set laststatus=0]]
+        vim.g.hasBufName = vim.api.nvim_buf_get_name(0) ~= "" and not vim.g.hasBufName or vim.g.hasBufName
+      end
+    end
+  end,
+})
+
+-- Set short keymap for nvdash
+autocmd({ "FileType" }, {
+  pattern = { "nvdash" },
+  desc = "Set Nvdash short keybinds",
+  callback = function()
+    vim.api.nvim_buf_set_keymap(0, "n", "f", "<cmd> Telescope find_files <CR>", { silent = true })
+    vim.api.nvim_buf_set_keymap(0, "n", "w", "<cmd> Telescope live_grep_args <CR>", { silent = true })
+    vim.api.nvim_buf_set_keymap(0, "n", "o", "<cmd> Telescope oldfiles <CR>", { silent = true })
+    vim.api.nvim_buf_set_keymap(0, "n", "b", "<cmd> Telescope marks <CR>", { silent = true })
+    vim.api.nvim_buf_set_keymap(0, "n", "t", "<cmd> Telescope themes <CR>", { silent = true })
+    vim.api.nvim_buf_set_keymap(0, "n", "q", "<cmd> q! <CR>", { silent = true })
+    vim.api.nvim_buf_set_keymap(0, "n", "L", "<cmd> Lazy <CR>", { silent = true })
+    vim.api.nvim_buf_set_keymap(0, "n", "p", "<cmd> Telescope projects <CR>", { silent = true })
+  end,
+  group = custom,
+})
+
+-- autocmd({ "FileType" }, {
+--   pattern = { "*" },
+--   callback = function()
+--     vim.api.nvim_buf_set_keymap(0, "n", "<F12>", ":lua pprint(vim.api.nvim_buf_get_name(0)) <CR>", { silent = true })
+--     vim.api.nvim_buf_set_keymap(0, "n", "<F11>", ":lua pprint(vim.bo.ft) <CR>", { silent = true })
+--     vim.api.nvim_buf_set_keymap(0, "n", "<F10>", ":lua pprint(vim.g.nvdash_displayed) <CR>", { silent = true })
+--   end,
+-- })

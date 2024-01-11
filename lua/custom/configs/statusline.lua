@@ -124,7 +124,7 @@ M.fileInfo = function()
     name = " " .. vim.bo.ft .. is_readonly .. " "
   end
 
-  return "%#StText# " .. icon .. name
+  return "%#StText# " .. " " .. icon ..  name
 end
 
 M.cwd = function()

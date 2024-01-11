@@ -62,7 +62,7 @@ local default_plugins = {
       require("core.utils").lazy_load "indent-blankline.nvim"
     end,
     opts = function()
-      return require("plugins.configs.blankline")
+      return require "plugins.configs.blankline"
     end,
     config = function(_, opts)
       require("core.utils").load_mappings "blankline"
@@ -82,7 +82,7 @@ local default_plugins = {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
         config = function()
-          require 'custom.configs.ts-textobjects'
+          require "custom.configs.ts-textobjects"
         end,
       },
     },
@@ -104,18 +104,16 @@ local default_plugins = {
       vim.api.nvim_create_autocmd({ "BufRead" }, {
         group = vim.api.nvim_create_augroup("GitSignsLazyLoad", { clear = true }),
         callback = function()
-          vim.fn.jobstart({ "git", "-C", vim.loop.cwd(), "rev-parse" },
-            {
-              on_exit = function(_, return_code)
-                if return_code == 0 then
-                  vim.api.nvim_del_augroup_by_name "GitSignsLazyLoad"
-                  vim.schedule(function()
-                    require("lazy").load { plugins = { "gitsigns.nvim" } }
-                  end)
-                end
+          vim.fn.jobstart({ "git", "-C", vim.loop.cwd(), "rev-parse" }, {
+            on_exit = function(_, return_code)
+              if return_code == 0 then
+                vim.api.nvim_del_augroup_by_name "GitSignsLazyLoad"
+                vim.schedule(function()
+                  require("lazy").load { plugins = { "gitsigns.nvim" } }
+                end)
               end
-            }
-          )
+            end,
+          })
         end,
       })
     end,
@@ -179,7 +177,7 @@ local default_plugins = {
         dependencies = "rafamadriz/friendly-snippets",
         opts = { history = true, updateevents = "TextChanged,TextChangedI" },
         config = function(_, opts)
-          require("plugins.configs.luasnip")(opts)
+          require "plugins.configs.luasnip" (opts)
         end,
       },
 
@@ -207,6 +205,7 @@ local default_plugins = {
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-calc",
+        "hrsh7th/cmp-nvim-lsp-signature-help",
       },
     },
     opts = function()
@@ -255,6 +254,7 @@ local default_plugins = {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
+       "nvim-telescope/telescope-file-browser.nvim",
       { "nvim-telescope/telescope-live-grep-args.nvim", version = "^1.0.0" },
     },
     cmd = "Telescope",
@@ -287,7 +287,8 @@ local default_plugins = {
     config = function(_, opts)
       dofile(vim.g.base46_cache .. "whichkey")
       -- use which-key only for showing register and marks.
-      opts = vim.tbl_deep_extend("force", opts, require 'custom.configs.which-key' or {})
+      opts = vim.tbl_deep_extend("force", opts, require "custom.configs.which-key" or {})
+      opts = vim.tbl_deep_extend("force", opts, require "custom.configs.which-key" or {})
 
       require("which-key").setup(opts)
     end,

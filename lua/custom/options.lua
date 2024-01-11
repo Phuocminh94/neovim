@@ -1,9 +1,10 @@
+-- https://github.com/williamboman/mason-lspconfig.nvim/blob/main/doc/server-mapping.md
 local opt = vim.opt
 local g = vim.g
 
 -------------------------------------- globals -----------------------------------------
-g.formatters_list = { "stylua" }
-g.linters_list = { "mypy" }
+g.formatters_list = { "stylua", "black", "isort", "prettier" }
+g.linters_list = {}
 g.mason_binaries_list = { "marksman", "pylsp", "vimls" }
 g.ts_binaries_list = { "lua", "python", "vimdoc" }
 g.highlighturl_enabled = true
@@ -12,6 +13,11 @@ g.diagnostic_mode_num = 1
 g.python3_host_prog = "~/.local/lib/virtualvenvs/ds/bin/python"
 
 -------------------------------------- options ------------------------------------------
+opt.foldcolumn = "0"
+opt.foldenable = true
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+opt.history = 100         -- number of commands to remember in a history table
 opt.number = true         -- show numberline
 opt.relativenumber = true -- show relative numberline
 opt.swapfile = false
