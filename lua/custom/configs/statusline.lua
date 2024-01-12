@@ -104,7 +104,7 @@ M.LSP_Diagnostics = function()
   hints = (hints and hints > 0) and ("󰛩 " .. hints .. " ") or ""
   info = (info and info > 0) and (" " .. info .. " ") or ""
 
-  return vim.o.columns > 140 and errors .. warnings .. hints .. info or ""
+  return (vim.o.columns > 140 and vim.g.diagnostic_mode_num > 0) and errors .. warnings .. hints .. info or ""
 end
 
 M.fileInfo = function()

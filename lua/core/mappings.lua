@@ -27,11 +27,7 @@ M.general = {
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
 
     -- Copy all
-    ["<C-c>"] = { "<cmd> %y+ <CR>", "Copy whole file" },
-
-    -- line numbers
-    ["<leader>n"] = { "<cmd> set nu! <CR>", "Toggle line number" },
-    ["<leader>rn"] = { "<cmd> set rnu! <CR>", "Toggle relative number" },
+    -- ["<C-c>"] = { "<cmd> %y+ <CR>", "Copy whole file" },
 
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
@@ -144,7 +140,7 @@ M.tabufline = {
       "Move buffer to left",
     },
 
-    ["^"] = { "<cmd>e #<cr>", "Other Buffer" },
+    ["<Tab>"] = { "<cmd>e #<cr>", "Other Buffer" },
 
     -- tab
     ["<leader><tab><tab>"] = { "<cmd>tabnew<CR>", "New tab" },
@@ -277,6 +273,10 @@ M.lspconfig = {
       "Add workspace folder",
     },
 
+    -- symbols
+    ["<leader>sd"] = { "<cmd> Telescope lsp_document_symbols <CR>", "Document symbols" },
+    ["<leader>sw"] = { "<cmd> Telescope lsp_workspace_symbols <CR>", "Workspace symbols" },
+
     ["<leader>wr"] = {
       function()
         vim.lsp.buf.remove_workspace_folder()
@@ -324,7 +324,7 @@ M.telescope = {
     ["<leader>fH"] = { "<cmd> Telescope highlights <CR>", "Find highlights" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "Find oldfiles" },
     ["<leader>fg"] = { "<cmd> Telescope live_grep_args <CR>", "Live grep args" },
-    ["<leader>fp"] = { "<cmd> Telescope projects <CR>", "Find projects" },
+    ["<leader>fp"] = { "<cmd> Telescope project <CR>", "Find project" },
     ["<leader>f/"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
     ["<leader>fe"] = { "<cmd> Telescope file_browser <CR>", "Telescope explorer" },
     ["<leader>fE"] = { "<cmd> Telescope file_browser files=false <CR>", "Telescope explorer folders" },
@@ -345,7 +345,7 @@ M.telescope = {
     -- theme switcher
     ["<leader>th"] = { "<cmd> Telescope themes <CR>", "Nvchad themes" },
 
-    -- ["<leader>ma"] = { "<cmd> Telescope marks <CR>", "telescope bookmarks" },
+    ["<leader>bm"] = { "<cmd> Telescope marks <CR>", "telescope bookmarks" },
   },
 }
 

@@ -7,6 +7,7 @@ M.ui = {
   extended_integrations = { "dap", "rainbowdelimiters", "trouble", "todo" },
   hl_override = {
     CursorLineNr = { fg = "yellow" },
+    FoldColumn = { bg = "none", fg = "lightbg" },
     LspReferenceRead = { bg = "lightbg", fg = "none" },
     LspReferenceText = { bg = "lightbg", fg = "none" }, -- same Visual highlight but lighter
     LspReferenceWrite = { bg = "lightbg", fg = "none" },
@@ -35,7 +36,7 @@ M.ui = {
       { "  Find Text", "w", "Telescope live_grep_args" },
       { "  Bookmarks", "b", "Telescope marks" },
       { "  Themes", "t", "Telescope themes" },
-      { "  Projects", "p", "Telescope projects" },
+      { "  Projects", "p", "Telescope project" },
       { "󰒲  Lazy", "l", "Lazy" },
       { "  Exit", "q", "q" },
     },

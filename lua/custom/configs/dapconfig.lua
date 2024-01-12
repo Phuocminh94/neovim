@@ -7,10 +7,7 @@ require('mason-nvim-dap').setup {
   -- see mason-nvim-dap README for more information
   handlers = {},
 
-  ensure_installed = {
-    'python',
-    'javascript',
-  },
+  ensure_installed = vim.g.dap_list
 }
 
 -- Dap UI setup

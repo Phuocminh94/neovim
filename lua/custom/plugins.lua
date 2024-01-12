@@ -5,14 +5,20 @@ return {
   },
 
   {
-    "tpope/vim-surround",
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
     keys = {
       "v" --[[ visual mode ]],
       "ys",
       "cs",
       "ds",
+      "S",
     },
-    dependencies = { "tpope/vim-repeat" },
+    config = function()
+      require("nvim-surround").setup {
+        -- Configuration here, or leave empty to use defaults
+      }
+    end,
   },
 
   {
@@ -21,7 +27,8 @@ return {
     config = function()
       require("leap").add_default_mappings()
       -- vim.cmd("highlight LeapLabelPrimary" .. " guifg='#ff007c'")
-      vim.api.nvim_set_hl(0, "LeapLabelPrimary", { link = "Visual" })
+      vim.cmd("highlight LeapLabelPrimary" .. " guifg='#1BFF00'")
+      -- vim.api.nvim_set_hl(0, "LeapLabelPrimary", { link = "Visual" })
       vim.keymap.set({ "n", "x", "o" }, "gs", "<Plug>(leap-backward-to)") -- remap the confusing S backward
     end,
   },
@@ -29,20 +36,6 @@ return {
   {
     "sam4llis/nvim-lua-gf",
     keys = { "gf" },
-  },
-
-  {
-    "ThePrimeagen/harpoon",
-    keys = { "<leader>ma", "<leader>m", "<leader>mp", "<leader>mn" },
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      -- REQUIRED
-      vim.keymap.set("n", "<leader>m", "<cmd>lua require('harpoon.mark').add_file() <CR>")
-      vim.keymap.set("n", "<leader>ma", "<cmd>Telescope harpoon marks <CR>")
-      -- Toggle previous & next buffers stored within Harpoon list
-      vim.keymap.set("n", "<leader>mp", "<cmd>lua require('harpoon.ui').nav_prev() <CR>")
-      vim.keymap.set("n", "<leader>mn", "<cmd>lua require('harpoon.ui').nav_next() <CR>")
-    end,
   },
 
   {
@@ -105,26 +98,8 @@ return {
   },
 
   {
-    "folke/zen-mode.nvim",
-    keys = { "<leader>z" },
-    cmd = { "ZenMode" },
-    config = function()
-      vim.keymap.set("n", "<leader>z", ":ZenMode <CR>")
-      require("zen-mode").setup {
-        on_open = function(win)
-          vim.cmd [[set laststatus=0]]
-          vim.cmd [[set cmdheight=0]]
-        end,
-        on_close = function(win)
-          vim.cmd [[set laststatus=3]]
-          vim.cmd [[set cmdheight=1]]
-        end,
-      }
-    end,
-  },
-
-  {
     "ahmedkhalf/project.nvim",
+    enabled = false,
     config = function()
       require("project_nvim").setup {}
     end,
@@ -140,21 +115,56 @@ return {
 
   {
     "kevinhwang91/nvim-ufo",
-    keys = { "zr", "zm", "[z", "]z" },
+    keys = { "zr", "zm", "za", "zo", "[z", "]z" },
     event = { "BufRead" },
-    dependencies = { "kevinhwang91/promise-async" },
+    dependencies = {
+      "kevinhwang91/promise-async",
+      {
+        "luukvbaal/statuscol.nvim",
+        config = function()
+          local builtin = require "statuscol.builtin"
+          require("statuscol").setup {
+            setopt = true,       -- Whether to set the 'statuscolumn' option, may be set to false for those who
+            relculright = false, -- whether to right-align the cursor line number with 'relativenumber' set
+            -- Builtin 'statuscolumn' options
+            ft_ignore = nil,     -- lua table with 'filetype' values for which 'statuscolumn' will be unset
+            bt_ignore = nil,     -- lua table with 'buftype' values for which 'statuscolumn' will be unset
+            segments = {
+              -- https://github.com/askfiy/SimpleNvim/blob/master/lua/core/depends/statuscol/init.lua
+              {
+                sign = {
+                  name = { "Dap*", "Diag*" },
+                  namespace = { "bulb*", "gitsign*" },
+                  colwidth = 1,
+                },
+                click = "v:lua.ScSa",
+              },
+              {
+                text = { " ", builtin.lnumfunc },
+                condition = { true, builtin.not_empty },
+                click = "v:lua.ScLa",
+              },
+              {
+                text = { " ", builtin.foldfunc, "  " },
+                condition = { true, builtin.not_empty },
+                click = "v:lua.ScFa",
+              },
+            },
+          }
+        end,
+      },
+    },
     config = function()
       require "custom.configs.ufo"
-      vim.keymap.set("n", "[z", require("ufo").openAllFolds)
-      vim.keymap.set("n", "]z", require("ufo").closeAllFolds)
-      -- vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
-      -- vim.keymap.set("n", "zm", require("ufo").closeFoldsWith) -- closeAll
+      vim.keymap.set("n", "zj", "<cmd>lua next_closed_fold('j') <CR>", { desc = "Previous closed fold" })
+      vim.keymap.set("n", "zk", "<cmd>lua next_closed_fold('k') <CR>", { desc = "Next closed fold" })
     end,
   },
 
   {
     "simrat39/symbols-outline.nvim",
     cmd = { "SymbolsOutline" },
+    enabled = false,
     keys = { "<leader>o" },
     config = function()
       local opts = require "custom.configs.symbols-outline"
@@ -164,11 +174,93 @@ return {
   },
 
   {
+    "hedyhli/outline.nvim",
+    keys = { "<leader>o" },
+    opts = function ()
+      return require "custom.configs.outline"
+    end,
+    config = function(_, opts)
+      -- Example mapping to toggle outline
+      vim.keymap.set("n", "<leader>o", "<cmd>Outline<CR>", { desc = "Toggle Outline" })
+      vim.api.nvim_set_hl(0, "OutlineCurrent", { link = "Visual" })
+
+      require("outline").setup(opts)
+    end,
+  },
+
+  {
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     build = "cd app && yarn install",
     init = function()
       vim.g.mkdp_filetypes = { "markdown" }
+    end,
+  },
+
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    enabled = false,
+    event = "LspAttach",
+    version = "*",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    opts = {
+      show_dirname = true,
+      show_basename = true,
+    },
+  },
+
+  {
+    "Wansmer/treesj",
+    config = function()
+      require("treesj").setup {}
+    end,
+  },
+
+  {
+    "olimorris/persisted.nvim",
+    cmd = {
+      "SessionToggle",
+      "SessionStart",
+      "SessionStop",
+      "SessionSave",
+      "SessionLoad",
+      "SessionLoadLast",
+      "SessionDelete",
+    },
+    config = function()
+      require("persisted").setup {
+        should_autosave = function()
+          -- do not autosave if the alpha dashboard is the current filetype
+          if vim.bo.filetype == "nvdash" then
+            return false
+          end
+          return true
+        end,
+      }
+    end,
+  },
+
+  {
+    "Pocco81/true-zen.nvim",
+    cmd = { "TZAtaraxis" },
+    keys = { "<leader>z" },
+    config = function()
+      require("true-zen").setup {}
+      vim.keymap.set("n", "<leader>z", "<cmd>TZMinimalist<CR>", { desc = "Zen mode" })
+    end,
+  },
+
+  {
+    "max397574/better-escape.nvim",
+    keys = { "jj", "jk" },
+    config = function()
+      require("better_escape").setup {
+        mapping = { "jk", "jj" }, -- a table with mappings to use
+      }
     end,
   },
 }

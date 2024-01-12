@@ -156,7 +156,7 @@ autocmd({ "FileType" }, {
   end,
 })
 
--- remove statusline on startup
+-- Remove statusline on startup
 vim.g.hasBufName = false
 vim.g.autocmdEnabled = true
 autocmd({ "BufRead", "FileType" }, {
@@ -187,10 +187,38 @@ autocmd({ "FileType" }, {
     vim.api.nvim_buf_set_keymap(0, "n", "t", "<cmd> Telescope themes <CR>", { silent = true })
     vim.api.nvim_buf_set_keymap(0, "n", "q", "<cmd> q! <CR>", { silent = true })
     vim.api.nvim_buf_set_keymap(0, "n", "L", "<cmd> Lazy <CR>", { silent = true })
-    vim.api.nvim_buf_set_keymap(0, "n", "p", "<cmd> Telescope projects <CR>", { silent = true })
+    vim.api.nvim_buf_set_keymap(0, "n", "p", "<cmd> Telescope project <CR>", { silent = true })
   end,
   group = custom,
 })
+
+-- Restore save view
+-- Taken from this https://github.com/askfiy/SimpleNvim/blob/master/lua/core/command/autocmd.lua
+autocmd("BufReadPost", {
+  pattern = { "*" },
+  group = custom,
+  desc = "return at where I was",
+  callback = function()
+    if vim.fn.line "'\"" > 0 and vim.fn.line "'\"" <= vim.fn.line "$" then
+      ---@diagnostic disable-next-line: param-type-mismatch
+      vim.fn.setpos(".", vim.fn.getpos "'\"")
+      -- how do I center the buffer in a sane way??
+      -- vim.cmd('normal zz')
+      vim.cmd "silent! foldopen"
+    end
+  end,
+})
+
+autocmd("FileType", {
+  pattern = {"nvcheatsheet"},
+  group = custom,
+  desc = "detach ufo on nvcheatsheet",
+  callback = function ()
+    vim.cmd [[lua require "ufo".detach()]]
+  end
+})
+
+-- Detach ufo
 
 -- autocmd({ "FileType" }, {
 --   pattern = { "*" },

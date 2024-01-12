@@ -4,7 +4,7 @@ local function diagnostic(mode)
   if mode == 0 then
     return { signs = false, underline = false, update_in_insert = false, virtual_text = false }
   elseif mode == 1 then
-    return { signs = false, underline = true, update_in_insert = false, virtual_text = false }
+    return { signs = false, underline = true, update_in_insert = true, virtual_text = false }
   elseif mode == 2 then
     return { signs = true, underline = true, update_in_insert = false, virtual_text = false }
   elseif mode == 3 then
@@ -140,6 +140,17 @@ function M.change_diagnostic_mode(silent)
   else
     ui_notify(silent, "all diagnostics on")
   end
+end
+
+--- Toggle barbecue
+---@param silent? boolean if true then don't send a notification
+function M.toggle_context_bar(silent)
+  if vim.g.toggle_barbecue then
+    vim.cmd [[lua require "barbecue.ui".toggle(false)]]
+  else
+    vim.cmd [[lua require "barbecue.ui".toggle(true)]]
+  end
+  vim.g.toggle_barbecue = not vim.g.toggle_barbecue
 end
 
 return M

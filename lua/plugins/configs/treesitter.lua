@@ -1,6 +1,6 @@
 local options = {
   ensure_installed = vim.g.ts_binaries_list or {},
-
+  auto_install = false,
   highlight = {
     enable = true,
     use_languagetree = true,

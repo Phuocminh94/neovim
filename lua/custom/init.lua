@@ -13,9 +13,10 @@ for _, file in ipairs(extended_base46_files) do
   end
 end
 
--- go to i-buf keybinds
-for i = 1, 9, 1 do
-  vim.keymap.set("n", string.format("<A-%s>", i), function()
-    vim.api.nvim_set_current_buf(vim.t.bufs[i])
-  end)
-end
+-- go to i-buf keybinds (not working)
+-- for i = 1, 9, 1 do
+--   vim.keymap.set("n", string.format("<M-%s>", i), function()
+--     vim.api.nvim_set_current_buf(vim.t.bufs[i])
+--   end)
+-- end
+

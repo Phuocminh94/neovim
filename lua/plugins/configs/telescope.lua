@@ -55,7 +55,7 @@ local options = {
     },
   },
 
-  extensions_list = { "themes", "file_browser", "terms", "live_grep_args", "harpoon", "projects" },
+  extensions_list = { "themes", "persisted", "file_browser", "terms", "live_grep_args", "project" },
 }
 
 return options

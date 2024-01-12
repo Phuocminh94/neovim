@@ -31,6 +31,7 @@ local default_plugins = {
 
   {
     "NvChad/nvim-colorizer.lua",
+    enabled = false,
     init = function()
       require("core.utils").lazy_load "nvim-colorizer.lua"
     end,
@@ -85,6 +86,7 @@ local default_plugins = {
           require "custom.configs.ts-textobjects"
         end,
       },
+      { "nvim-treesitter/nvim-treesitter-context", enabled = false },
     },
     opts = function()
       return require "plugins.configs.treesitter"
@@ -151,11 +153,12 @@ local default_plugins = {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      -- "jose-elias-alvarez/null-ls.nvim",
-      "nvimtools/none-ls.nvim", -- migrate to none-ls (community mantained)
-      config = function()
-        require "custom.configs.null-ls"
-      end,
+      {
+        "nvimtools/none-ls.nvim", -- migrate to none-ls (community mantained)
+        config = function()
+          require "custom.configs.null-ls"
+        end,
+      },
     },
     init = function()
       require("core.utils").lazy_load "nvim-lspconfig"
@@ -174,7 +177,10 @@ local default_plugins = {
       {
         -- snippet plugin
         "L3MON4D3/LuaSnip",
-        dependencies = "rafamadriz/friendly-snippets",
+        dependencies = {
+          "rafamadriz/friendly-snippets",
+          {"kawre/neotab.nvim", opts={}},
+        },
         opts = { history = true, updateevents = "TextChanged,TextChangedI" },
         config = function(_, opts)
           require "plugins.configs.luasnip" (opts)
@@ -254,8 +260,9 @@ local default_plugins = {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-       "nvim-telescope/telescope-file-browser.nvim",
+      "nvim-telescope/telescope-file-browser.nvim",
       { "nvim-telescope/telescope-live-grep-args.nvim", version = "^1.0.0" },
+      "nvim-telescope/telescope-project.nvim",
     },
     cmd = "Telescope",
     init = function()

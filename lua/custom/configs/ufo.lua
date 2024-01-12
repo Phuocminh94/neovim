@@ -1,9 +1,11 @@
+-- vim.cmd("highlight UfoCustom" .. " guifg='#1174b1'") -- same Hop color
+-- vim.cmd("highlight UfoCustom" .. " guifg='#1BFF00'") -- same Hop color
 vim.cmd("highlight UfoCustom" .. " guifg='#ff007c'") -- same Hop color
-vim.api.nvim_set_hl(0, "UfoCustom", { link = "Visual" })
+-- vim.api.nvim_set_hl(0, "UfoCustom", { link = "Visual" })
 
 local handler = function(virtText, lnum, endLnum, width, truncate)
   local newVirtText = {}
-  local suffix = (" ... 󰁂 %d "):format(endLnum - lnum)
+  local suffix = (" 󰡏 %d "):format(endLnum - lnum)
   local sufWidth = vim.fn.strdisplaywidth(suffix)
   local targetWidth = width - sufWidth
   local curWidth = 0

@@ -15,14 +15,27 @@ return function(opts)
 
   -- load custom snippets
   local ok, _ = pcall(require, vim.g.lua_snippets_path)
+  local _, neotab = pcall(require, "neotab")
 
   -- set keymaps
-  local ok, ls = pcall(require, "luasnip")
-  vim.keymap.set({ "i" }, "<C-s>", function() ls.expand() end, { silent = true }) -- mnemonic: show
-  vim.keymap.set({ "i", "s" }, "<Tab>", function() ls.jump(1) end, { silent = true })
-  vim.keymap.set({ "i", "s" }, "<S-Tab>", function() ls.jump(-1) end, { silent = true })
+  local _, ls = pcall(require, "luasnip")
+  vim.keymap.set({ "i" }, "<C-s>", function()
+    ls.expand()
+  end, { silent = true }) -- mnemonic: show
+  vim.keymap.set({ "i", "s" }, "<Tab>", function()
+    if ls.jumpable(1) then
+      ls.jump(1)
+    else
+      neotab.tabout()
+    end
+  end, { silent = true })
+  vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
+    ls.jump(-1)
+  end, { silent = true })
   vim.keymap.set({ "i", "s" }, "<C-d>", function() -- down
-    if ls.choice_active() then ls.change_choice(1) end
+    if ls.choice_active() then
+      ls.change_choice(1)
+    end
   end, { silent = true })
 
   vim.api.nvim_create_autocmd("InsertLeave", {

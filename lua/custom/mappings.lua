@@ -3,6 +3,12 @@ local opts = { silent = true }
 return {
   general = {
     n = {
+      -- change without yank
+      ["c"] = { '"_c', "Change without yanking" },
+
+      -- load last session
+      ["<leader>ll"] = { "<cmd> SessionLoadLast <CR>", "Load last session" },
+
       -- swap lines
       ["<A-j>"] = { ":m .+1<CR>==", "Swap below", opts = opts },
       ["<A-k>"] = { ":m .-2<CR>==", "Swap above", opts = opts },
@@ -43,6 +49,10 @@ return {
       ["]q"] = { "<cmd>cnext<CR>", "Next quickfix" },
       ["[q"] = { "<cmd>cprev<CR>", "Previous quickfix" },
       ["Q"] = { "<cmd>copen<CR>", "Open quickfix" },
+
+
+      -- better join/split
+      ["gJ"] = { "<cmd> lua require 'treesj'.toggle() <CR>", "Treesj toggle" },
 
       -- quit
       ["<leader>q"] = { "<cmd>confirm q<CR>", "Quit window" },
