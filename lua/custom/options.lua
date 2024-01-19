@@ -11,7 +11,7 @@ g.formatters_list = {
   "markdownlint",
 }
 g.linters_list = {}
-g.mason_binaries_list = { "pylsp", "vimls" }
+g.mason_binaries_list = { "marksman", "pylsp", "vimls" }
 g.ts_binaries_list = { "markdown", "lua", "python", "vimdoc" }
 g.highlighturl_enabled = true
 g.diagnostic_mode = { virtual_text = false, signs = false, underline = false, update_in_insert = false }

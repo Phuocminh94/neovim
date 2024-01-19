@@ -28,7 +28,7 @@ M.ui = {
       table.insert(modules, 6, custom.others())
     end,
   },
-  theme = "gruvchad",
+  theme = "oxocarbon",
   nvdash = {
     buttons = {
       { "  Find Files", "f", "Telescope find_files" },

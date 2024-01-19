@@ -1,5 +1,6 @@
 -- vim.cmd("highlight UfoCustom" .. " guifg='#1174b1'") -- same Hop color
 -- vim.cmd("highlight UfoCustom" .. " guifg='#1BFF00'") -- same Hop color
+-- vim.cmd("highlight UfoCustom" .. " guifg='#1174b1'") -- same Hop color
 vim.cmd("highlight UfoCustom" .. " guifg='#ff007c'") -- same Hop color
 -- vim.api.nvim_set_hl(0, "UfoCustom", { link = "Visual" })
 

@@ -207,7 +207,7 @@ return {
     --   filter = { 'Package', 'Module', 'Function' }
     -- See more examples below.
     filter = {
-      python = {'Class', 'Function', 'Method', 'Package', 'Module'},
+      python = {'Class', 'Function', 'Method', 'Package', 'Module', 'Field'},
       default = { 'String', exclude=true },
 
     },
@@ -230,7 +230,7 @@ return {
       Class = { icon = '', hl = 'Type' },
       Method = { icon = '', hl = 'Function' },
       Property = { icon = '󰜢', hl = 'Identifier' },
-      Field = { icon = '󰆨', hl = 'Identifier' },
+      Field = { icon = '', hl = 'Identifier' },
       Constructor = { icon = '', hl = 'Special' },
       Enum = { icon = '', hl = 'Type' },
       Interface = { icon = '󰜰', hl = 'Type' },

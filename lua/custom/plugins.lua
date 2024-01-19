@@ -8,16 +8,14 @@ return {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     keys = {
-      "v" --[[ visual mode ]],
       "ys",
       "cs",
       "ds",
-      "S",
+      "v",
+      "V",
     },
     config = function()
-      require("nvim-surround").setup {
-        -- Configuration here, or leave empty to use defaults
-      }
+      require("nvim-surround").setup {}
     end,
   },
 
@@ -26,8 +24,15 @@ return {
     keys = { "s", "vs", "gs", "vgs" },
     config = function()
       require("leap").add_default_mappings()
+      require("leap").add_repeat_mappings(";", ",", {
+        relative_directions = true,
+        modes = { "n", "x", "o" },
+      })
       -- vim.cmd("highlight LeapLabelPrimary" .. " guifg='#ff007c'")
-      vim.cmd("highlight LeapLabelPrimary" .. " guifg='#1BFF00'")
+      -- vim.cmd("highlight LeapLabelPrimary" .. " guifg='#1BFF00'")
+      -- vim.cmd("highlight LeapLabelPrimary" .. " guifg='#1174b1'")
+      vim.cmd("highlight LeapLabelPrimary" .. " guifg='#4AF626'" .. "guibg=" .. vim.g.mylightbg)
+      -- vim.cmd("highlight LeapLabelPrimary" .. " guifg='#ff007c'" .. "guibg=" .. vim.g.mylightbg)
       -- vim.api.nvim_set_hl(0, "LeapLabelPrimary", { link = "Visual" })
       vim.keymap.set({ "n", "x", "o" }, "gs", "<Plug>(leap-backward-to)") -- remap the confusing S backward
     end,
@@ -176,7 +181,7 @@ return {
   {
     "hedyhli/outline.nvim",
     keys = { "<leader>o" },
-    opts = function ()
+    opts = function()
       return require "custom.configs.outline"
     end,
     config = function(_, opts)
@@ -260,6 +265,27 @@ return {
     config = function()
       require("better_escape").setup {
         mapping = { "jk", "jj" }, -- a table with mappings to use
+      }
+    end,
+  },
+
+  {
+    "chentoast/marks.nvim",
+    enabled = true,
+    keys = { "'", "`", "m", "<leader>bm" },
+    config = function()
+      vim.cmd("highlight MarkSignNumHL" .. " guifg='#ff007c'")
+      require("marks").setup ({})
+    end,
+  },
+
+  {
+    "rmagatti/goto-preview",
+    enabled = true,
+    event = "LspAttach",
+    config = function()
+      require("goto-preview").setup {
+        default_mappings = true,
       }
     end,
   },

@@ -1,7 +1,7 @@
 return {
   config = {
     scratch_repl = true,
-    -- repl_open_cmd = require("iron.view").right(40, 5),
+    repl_open_cmd = require("iron.view").right(40, 5),
     -- repl_open_cmd = require("iron.view").center(function(vertical)
     --   -- Useless function, but it will be called twice,
     --   -- once for each dimension (width, height)
@@ -11,12 +11,12 @@ return {
     --   return 20
     -- end),
 
-    repl_open_cmd = require("iron.view").center(function(vertical)
-      if vertical then
-        return 100
-      end
-      return 20
-    end),
+    -- repl_open_cmd = require("iron.view").center(function(vertical)
+    --   if vertical then
+    --     return 100
+    --   end
+    --   return 20
+    -- end),
     repl_definition = {
       python = {
         command = { "ipython" },

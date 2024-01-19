@@ -69,11 +69,12 @@ M.others = function()
   local has_rec = vim.fn.reg_recording() ~= ""
   local search_stat = nil
 
-  if vim.v.hlsearch == 1 then
+  if vim.v.hlsearch ~= 0 then
     local sinfo = vim.fn.searchcount { maxcount = 0 }
     if not (sinfo.incomplete == nil or sinfo.total == nil) then -- would throw errors in lazy installing new plugin without this line.
-      search_stat = sinfo.incomplete > 0 and ' [?/?]'
-          or sinfo.total > 0 and (' [%s/%s]'):format(sinfo.current, sinfo.total) or nil
+      search_stat = sinfo.incomplete > 0 and " [?/?]"
+          or sinfo.total > 0 and (" [%s/%s]"):format(sinfo.current, sinfo.total)
+          or nil
     end
   end
 
@@ -86,7 +87,14 @@ end
 M.tabWidth = function()
   local tab = vim.api.nvim_buf_get_option(0, "shiftwidth")
   local condition = vim.bo.filetype ~= "NvimTree" and vim.o.columns > 140
-  return condition and "󰌒 " .. tab .. " " or ""
+  local buf_clients = vim.lsp.get_active_clients { bufnr = 0 }
+  local add_bar = #buf_clients == 0 and "| " or ""
+
+  return condition --[[ "󰌒 :" ]]
+      and add_bar .. " :" --[[ " :" ]]
+      .. tab
+      .. " "
+      or ""
 end
 
 M.LSP_Diagnostics = function()
@@ -124,10 +132,13 @@ M.fileInfo = function()
     name = " " .. vim.bo.ft .. is_readonly .. " "
   end
 
-  return "%#StText# " .. " " .. icon ..  name
+  return "%#StText# " .. " " .. icon .. name
 end
 
 M.cwd = function()
+  -- check if git
+  has_git = vim.b[stbufnr()].gitsigns_head or vim.b[stbufnr()].gitsigns_git_status
+
   -- trim dir
   local max_dirname = 7
   local function trim_dirname(dirname, max_length)
@@ -136,26 +147,33 @@ M.cwd = function()
       return dirname
     else
       local trim_notation = "..."
-      local extension = dirname:match("%.[^%.]+$") or ""
+      local extension = dirname:match "%.[^%.]+$" or ""
       local basename = dirname:sub(1, max_length - #trim_notation - #extension)
       return basename .. trim_notation .. extension
     end
   end
 
-  local dir_name = "%#St_Mode# 󰉖 " .. trim_dirname(fn.fnamemodify(fn.getcwd(), ":t")) .. " "
+  -- icon
+  icon = has_git and "%#St_Mode#  " or "%#St_Mode#  "
+  local dir_name = --[[ "%#St_Mode# 󰉖 " ]]
+      icon .. trim_dirname(fn.fnamemodify(fn.getcwd(), ":t")) .. " "
   return dir_name
 end
 
 M.LSP_status = function()
-  local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+  local buf_clients = vim.lsp.get_active_clients { bufnr = 0 }
   local buf_client_names = {}
   local has_copilot = false
   local condition = vim.bo.filetype ~= "nvdash" and vim.o.columns > 85
 
   -- check if treesitter is valid + toggled on
   local treesitter_available = function(bufnr)
-    if not package.loaded["nvim-treesitter"] then return false end
-    if type(bufnr) == "table" then bufnr = bufnr.bufnr end
+    if not package.loaded["nvim-treesitter"] then
+      return false
+    end
+    if type(bufnr) == "table" then
+      bufnr = bufnr.bufnr
+    end
     local ok, parsers = pcall(require, "nvim-treesitter.parsers")
     return ok and parsers.has_parser(parsers.get_buf_lang(bufnr or vim.api.nvim_get_current_buf())) or nil
   end
@@ -186,8 +204,12 @@ M.LSP_status = function()
   end
 
   -- add formatter & linter
-  local list_registered_providers_names = function() return {} end -- assign nil cause error
-  local list_registered = function() return {} end
+  local list_registered_providers_names = function()
+    return {}
+  end -- assign nil cause error
+  local list_registered = function()
+    return {}
+  end
   local FORMATTER = {}
   local LINTER = {}
   if vim.g.loadedFormatter and vim.g.loadedLinter then
@@ -195,7 +217,7 @@ M.LSP_status = function()
     FORMATTER = null_ls.methods.FORMATTING
     LINTER = null_ls.methods.DIAGNOSTICS
     list_registered_providers_names = function(filetype)
-      local ok, s = pcall(require, 'null-ls.sources')
+      local ok, s = pcall(require, "null-ls.sources")
       if not ok then
         return ""
       else
@@ -229,15 +251,15 @@ M.LSP_status = function()
     -- end
   end
 
-  return condition and "%#StText#"
-      .. "  ~ "
+  return condition
+      and "%#StText#" .. "  ~ "
       .. table.concat(buf_client_names, ",")
       .. (vim.o.columns > 140 and " | " or " ") -- condition from cursor_postition
       or ""
 end
 
 M.cursorPos = function()
-  return vim.o.columns > 140 and "%#StText# Ln %l, Col %c  " or ""
+  return vim.o.columns > 140 and "%#StText#:%l :%c  " or ""
 end
 
 return M

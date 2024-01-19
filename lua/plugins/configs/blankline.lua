@@ -2,6 +2,9 @@ local colors = require("base46").get_theme_tb "base_30"
 local ibl = require "core.utils".load_config().ui.blankline
 local style = ibl.style
 
+-- export lightbg to use later
+vim.g.mylightbg = colors.lightbg
+
 local function addHighlights()
   local common = "IndentBlankline"
 
