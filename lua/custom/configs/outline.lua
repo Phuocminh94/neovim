@@ -227,7 +227,7 @@ return {
       Module = { icon = '󰏗', hl = 'Include' },
       Namespace = { icon = '󰅪', hl = 'Include' },
       Package = { icon = '󰏗', hl = 'Include' },
-      Class = { icon = '', hl = 'Type' },
+      Class = { icon = "" --[[ '' ]], hl = 'Type' },
       Method = { icon = '', hl = 'Function' },
       Property = { icon = '󰜢', hl = 'Identifier' },
       Field = { icon = '', hl = 'Identifier' },

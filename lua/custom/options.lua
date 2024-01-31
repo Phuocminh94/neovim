@@ -8,7 +8,6 @@ g.formatters_list = {
   "stylua",
   "black",
   "isort", --[[ "prettier" ]]
-  "markdownlint",
 }
 g.linters_list = {}
 g.mason_binaries_list = { "marksman", "pylsp", "vimls" }
@@ -20,6 +19,7 @@ g.python3_host_prog = "~/.local/lib/virtualvenvs/ds/bin/python"
 g.toggle_barbecue = true
 
 -------------------------------------- options ------------------------------------------
+-- opt.cmdheight = 0
 opt.foldcolumn = "1"
 opt.foldenable = true
 opt.foldlevel = 99

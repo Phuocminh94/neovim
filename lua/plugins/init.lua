@@ -31,18 +31,24 @@ local default_plugins = {
 
   {
     "NvChad/nvim-colorizer.lua",
-    enabled = false,
-    init = function()
-      require("core.utils").lazy_load "nvim-colorizer.lua"
-    end,
-    config = function(_, opts)
-      require("colorizer").setup(opts)
-
-      -- execute colorizer as soon as possible
+    enabled = true,
+    config = function()
+      require("colorizer").setup {}
       vim.defer_fn(function()
         require("colorizer").attach_to_buffer(0)
       end, 0)
     end,
+    -- init = function()
+    --   require("core.utils").lazy_load "nvim-colorizer.lua"
+    -- end,
+    -- config = function(_, opts)
+    --   require("colorizer").setup(opts)
+    --
+    --   -- execute colorizer as soon as possible
+    --   vim.defer_fn(function()
+    --     require("colorizer").attach_to_buffer(0)
+    --   end, 0)
+    -- end,
   },
 
   {

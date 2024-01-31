@@ -20,21 +20,12 @@ return {
   },
 
   {
-    "ggandor/leap.nvim",
-    keys = { "s", "vs", "gs", "vgs" },
+    "smoka7/hop.nvim",
+    version = "*",
+    keys = { "f", "F", "t", "T", "vf", "vF", "vt", "vT", "gs", "<leader>yy", "<leader>pp" },
     config = function()
-      require("leap").add_default_mappings()
-      require("leap").add_repeat_mappings(";", ",", {
-        relative_directions = true,
-        modes = { "n", "x", "o" },
-      })
-      -- vim.cmd("highlight LeapLabelPrimary" .. " guifg='#ff007c'")
-      -- vim.cmd("highlight LeapLabelPrimary" .. " guifg='#1BFF00'")
-      -- vim.cmd("highlight LeapLabelPrimary" .. " guifg='#1174b1'")
-      vim.cmd("highlight LeapLabelPrimary" .. " guifg='#4AF626'" .. "guibg=" .. vim.g.mylightbg)
-      -- vim.cmd("highlight LeapLabelPrimary" .. " guifg='#ff007c'" .. "guibg=" .. vim.g.mylightbg)
-      -- vim.api.nvim_set_hl(0, "LeapLabelPrimary", { link = "Visual" })
-      vim.keymap.set({ "n", "x", "o" }, "gs", "<Plug>(leap-backward-to)") -- remap the confusing S backward
+      require "custom.configs.hop" ()
+      vim.cmd("highlight HopNextKey" .. " guifg='#4AF626'" .. "guibg=" .. vim.g.mylightbg)
     end,
   },
 
@@ -103,14 +94,6 @@ return {
   },
 
   {
-    "ahmedkhalf/project.nvim",
-    enabled = false,
-    config = function()
-      require("project_nvim").setup {}
-    end,
-  },
-
-  {
     "kdheepak/lazygit.nvim",
     cmd = { "LazyGit" },
     dependencies = {
@@ -133,6 +116,8 @@ return {
             relculright = false, -- whether to right-align the cursor line number with 'relativenumber' set
             -- Builtin 'statuscolumn' options
             ft_ignore = nil,     -- lua table with 'filetype' values for which 'statuscolumn' will be unset
+            bt_ignore = nil,     -- lua table with 'filetype' values for which 'statuscolumn' will be unset
+            bt_ignore = nil,     -- lua table with 'filetype' values for which 'statuscolumn' will be unset
             bt_ignore = nil,     -- lua table with 'buftype' values for which 'statuscolumn' will be unset
             segments = {
               -- https://github.com/askfiy/SimpleNvim/blob/master/lua/core/depends/statuscol/init.lua
@@ -163,18 +148,6 @@ return {
       require "custom.configs.ufo"
       vim.keymap.set("n", "zj", "<cmd>lua next_closed_fold('j') <CR>", { desc = "Previous closed fold" })
       vim.keymap.set("n", "zk", "<cmd>lua next_closed_fold('k') <CR>", { desc = "Next closed fold" })
-    end,
-  },
-
-  {
-    "simrat39/symbols-outline.nvim",
-    cmd = { "SymbolsOutline" },
-    enabled = false,
-    keys = { "<leader>o" },
-    config = function()
-      local opts = require "custom.configs.symbols-outline"
-      require("symbols-outline").setup(opts)
-      vim.keymap.set({ "n" }, "<leader>o", ":SymbolsOutline<CR>", { desc = "Symbols outline" })
     end,
   },
 
@@ -261,7 +234,7 @@ return {
 
   {
     "max397574/better-escape.nvim",
-    keys = { "jj", "jk" },
+    event = "InsertEnter",
     config = function()
       require("better_escape").setup {
         mapping = { "jk", "jj" }, -- a table with mappings to use
@@ -275,7 +248,7 @@ return {
     keys = { "'", "`", "m", "<leader>bm" },
     config = function()
       vim.cmd("highlight MarkSignNumHL" .. " guifg='#ff007c'")
-      require("marks").setup ({})
+      require("marks").setup {}
     end,
   },
 
@@ -287,6 +260,19 @@ return {
       require("goto-preview").setup {
         default_mappings = true,
       }
+    end,
+  },
+
+  { 
+    -- having some problems with hop; try gs + char
+    "folke/noice.nvim", -- used this help fix the problem with searching display in statusline.
+    -- keys = { ":", "/", "?" },
+    event = {"BufRead"}, -- fixed the above problem with hop
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+    config = function()
+      require("noice").setup(require "custom.configs.noice")
     end,
   },
 }

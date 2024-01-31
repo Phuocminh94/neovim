@@ -140,8 +140,6 @@ M.tabufline = {
       "Move buffer to left",
     },
 
-    ["<Tab>"] = { "<cmd>e #<cr>", "Other Buffer" },
-
     -- tab
     ["<leader><tab><tab>"] = { "<cmd>tabnew<CR>", "New tab" },
     ["<leader><tab>d"] = { "<cmd>tabclose<CR>", "Close tab" },
@@ -405,14 +403,14 @@ M.nvterm = {
     },
 
     -- new
-    ["<leader>h"] = {
+    ["<leader>nht"] = {
       function()
         require("nvterm.terminal").new "horizontal"
       end,
       "New horizontal term",
     },
 
-    ["<leader>v"] = {
+    ["<leader>nvt"] = {
       function()
         require("nvterm.terminal").new "vertical"
       end,

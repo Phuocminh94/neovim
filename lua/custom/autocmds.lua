@@ -219,7 +219,6 @@ autocmd("FileType", {
 })
 
 -- Detach ufo
-
 -- autocmd({ "FileType" }, {
 --   pattern = { "*" },
 --   callback = function()

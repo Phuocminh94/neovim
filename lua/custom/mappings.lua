@@ -19,6 +19,9 @@ return {
       -- lazygit
       ["<leader>lg"] = { "<cmd>LazyGit <CR>", "Lazygit" },
 
+      -- # buffer
+      ["<Tab>"] = {"<cmd> e# <CR>", "Alternative buffer"},
+
       -- resize windows
       ["<C-Up>"] = { "<cmd>resize -2<CR>", "Resize up" },
       ["<C-Down>"] = { "<cmd>resize +2<CR>", "Resize down" },
@@ -49,7 +52,6 @@ return {
       ["]q"] = { "<cmd>cnext<CR>", "Next quickfix" },
       ["[q"] = { "<cmd>cprev<CR>", "Previous quickfix" },
       ["Q"] = { "<cmd>copen<CR>", "Open quickfix" },
-
 
       -- better join/split
       ["gJ"] = { "<cmd> lua require 'treesj'.toggle() <CR>", "Treesj toggle" },
@@ -230,6 +232,7 @@ return {
       ["<leader>up"] = { [[ <cmd> lua require "custom.ui".toggle_autopairs() <CR> ]], "Toggle autopairs" },
       ["<leader>uw"] = { [[ <cmd> lua require "custom.ui".toggle_wrap() <CR> ]], "Toggle wrap" },
       ["<leader>ud"] = { [[ <cmd> lua require "custom.ui".change_diagnostic_mode() <CR> ]], "Change diagnostic mode" },
+      ["<leader>uc"] = { [[ <cmd> Lazy load nvim-colorizer.lua  <CR> ]], "Load colorizer" },
     },
   },
 
