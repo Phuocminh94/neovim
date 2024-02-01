@@ -35,9 +35,9 @@ local opts = function()
   end, { remap = true, silent = true })
 
   --
-  vim.api.nvim_set_keymap("n", "gs", ":HopChar1<CR>", { silent = true })
-  vim.api.nvim_set_keymap("n", "<leader>yy", ":HopYankChar1<CR>", { silent = true })
-  vim.api.nvim_set_keymap("n", "<leader>pp", ":HopPasteChar1<CR>", { silent = true })
+  vim.api.nvim_set_keymap("", "gs", ":HopChar1<CR>", { silent = true })
+  vim.api.nvim_set_keymap("", "<leader>yy", ":HopYankChar1<CR>", { silent = true })
+  vim.api.nvim_set_keymap("", "<leader>pp", ":HopPasteChar1<CR>", { silent = true })
 
   require("hop").setup {
     keys = "etovxqpdygfblzhckisuran",

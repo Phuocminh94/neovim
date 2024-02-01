@@ -20,7 +20,7 @@ return {
       ["<leader>lg"] = { "<cmd>LazyGit <CR>", "Lazygit" },
 
       -- # buffer
-      ["<Tab>"] = {"<cmd> e# <CR>", "Alternative buffer"},
+      ["<Tab>"] = { "<cmd> e# <CR>", "Alternative buffer" },
 
       -- resize windows
       ["<C-Up>"] = { "<cmd>resize -2<CR>", "Resize up" },
@@ -31,8 +31,8 @@ return {
       -- auto recenter search
       -- NOTE: behavior of n/N depend on / or ?
       -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-      ["n"] = { "nzz", "Recenter next search", cheatsheet = false, opts = { silent = true } },
-      ["N"] = { "Nzz", "Recenter previous search", cheatsheet = false, opts = { silent = true } },
+      ["n"] = { "nzz", "Recenter next search", cheatsheet = false, opts = opts },
+      ["N"] = { "Nzz", "Recenter previous search", cheatsheet = false, opts = opts },
 
       -- clone VsCode style
       ["<A-S-k>"] = { "<cmd>t-1<CR>", "Copy line up" },
@@ -67,8 +67,8 @@ return {
       ["JK"] = { "<Esc>", "Escape insert mode" },
 
       -- swap lines
-      ["<A-j>"] = { "<Esc>:m .+1<CR>==gi", "Swap below" },
-      ["<A-k>"] = { "<Esc>:m .-2<CR>==gi", "Swap above" },
+      ["<A-j>"] = { "<Esc>:m .+1<CR>==gi", "Swap below", opts = opts },
+      ["<A-k>"] = { "<Esc>:m .-2<CR>==gi", "Swap above", opts = opts },
 
       ["<C-f>"] = { "<C-o>de", "Delete till next word" },
     },
@@ -76,9 +76,9 @@ return {
     v = {
       ["<A-S-j>"] = { "y'>:put<CR>`<gv", "Copy block down" },
       ["<A-S-k>"] = { "<cmd>t-1<CR>", "Copy block up" },
-      ["<A-j>"] = { ":m '>+1<CR>gv-gv", "Visual swap below" },
-      ["<A-k>"] = { ":m '<-2<CR>gv-gv", "Visual swap above" },
-      ["<leader>s"] = { ":sort<CR>", "Sort lines" },
+      ["<A-j>"] = { ":m '>+1<CR>gv-gv", "Visual swap below", opts = opts },
+      ["<A-k>"] = { ":m '<-2<CR>gv-gv", "Visual swap above", opts = opts },
+      ["<leader>s"] = { ":sort<CR>", "Sort lines", opts = opts },
       ["d"] = { '"_d', "Delete char without yank" },
     },
   },

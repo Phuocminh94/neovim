@@ -187,7 +187,7 @@ local default_plugins = {
           "rafamadriz/friendly-snippets",
           {"kawre/neotab.nvim", opts={}},
         },
-        opts = { history = true, updateevents = "TextChanged,TextChangedI" },
+        opts = { history = true, updateevents = "TextChanged,TextChangedI", enable_autosnippets = true, },
         config = function(_, opts)
           require "plugins.configs.luasnip" (opts)
         end,

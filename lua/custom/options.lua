@@ -7,7 +7,8 @@ g.dap_list = { "python" }
 g.formatters_list = {
   "stylua",
   "black",
-  "isort", --[[ "prettier" ]]
+  "isort",
+--[[   "prettier", ]]
 }
 g.linters_list = {}
 g.mason_binaries_list = { "marksman", "pylsp", "vimls" }
@@ -17,6 +18,7 @@ g.diagnostic_mode = { virtual_text = false, signs = false, underline = false, up
 g.diagnostic_mode_num = 1
 g.python3_host_prog = "~/.local/lib/virtualvenvs/ds/bin/python"
 g.toggle_barbecue = true
+g.lua_snippets_path = "~/.config/nvim/lua/snippets/"
 
 -------------------------------------- options ------------------------------------------
 -- opt.cmdheight = 0
